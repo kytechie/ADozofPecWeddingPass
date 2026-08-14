@@ -45,17 +45,23 @@ export default function AddGuestPage() {
     }
 
     const inviteCode = crypto.randomUUID().slice(0, 8).toUpperCase();
+    const inviteToken = crypto.randomUUID();
+    const qrCode = crypto.randomUUID();
 
-    const { error } = await supabase.from("guests").insert({
-      full_name: fullName,
-      email,
-      phone,
-      seats,
-      table_id: tableId || null,
-      invite_code: inviteCode,
-      attending: false,
-      checked_in: false,
-    });
+   const { error } = await supabase.from("guests").insert({
+  full_name: fullName,
+  email,
+  phone,
+  seats,
+  table_id: tableId || null,
+
+  invite_code: inviteCode,
+  invite_token: inviteToken,
+  qr_code: qrCode,          // 👈 ADD THIS LINE
+
+  attending: false,
+  checked_in: false,
+});
 
     if (error) {
       alert(error.message);

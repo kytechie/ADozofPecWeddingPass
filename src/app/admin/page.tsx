@@ -5,6 +5,7 @@ import {
   UserCheck,
   QrCode,
   Clock,
+  XCircle,
 } from "lucide-react";
 
 export default async function AdminDashboard() {
@@ -20,17 +21,28 @@ export default async function AdminDashboard() {
   const { count: attending } = await supabase
     .from("guests")
     .select("*", { count: "exact", head: true })
-    .eq("attendance_status", "Attending");
+    .eq("attending", true)
 
-  const pending = (totalGuests ?? 0) - (checkedIn ?? 0);
+    const { count: declined } = await supabase
+  .from("guests")
+  .select("*", { count: "exact", head: true })
+  .eq("attending", false);
+
+  const pending = Math.max(
+  0,
+  (attending ?? 0) - (checkedIn ?? 0)
+);
   const { data: recentGuests } = await supabase
   .from("guests")
   .select("*")
-  .order("created_at", { ascending: false })
+  .eq("checked_in", true)
+.order("checked_in_at", { ascending: false })
   .limit(5);
   return (
+
+  
     <div>
-      <h1 className="text-5xl font-light">
+      <h1 className="text-3xl md:text-5xl font-light">
         Dashboard
       </h1>
 
@@ -38,7 +50,7 @@ export default async function AdminDashboard() {
         Welcome back. Here's your wedding overview.
       </p>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mt-10">
         <Card
   title="Guests"
   value={totalGuests ?? 0}
@@ -61,10 +73,17 @@ export default async function AdminDashboard() {
 />
 
 <Card
-  title="Pending"
+  title="Awaiting Check-in"
   value={pending}
   icon={<Clock size={30} />}
   color="#DC2626"
+/>
+
+<Card
+    title="Declined"
+    value={declined ?? 0}
+    icon={<XCircle size={30} />}
+    color="#6B7280"
 />
       </div>
 
@@ -74,7 +93,7 @@ export default async function AdminDashboard() {
             Quick Actions
           </h2>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Link
               href="/admin/add-guest"
               className="rounded-2xl bg-[#2F2A27] text-white p-6 text-center hover:opacity-90"
@@ -135,6 +154,78 @@ export default async function AdminDashboard() {
               </div>
             </div>
 
+            {/* RECENT ACTIVITY */}
+
+<div className="mt-10 rounded-3xl bg-white shadow-lg p-8">
+
+  <div className="flex items-center justify-between">
+
+    <h2 className="text-2xl font-light">
+      Recently Check-ins
+    </h2>
+
+    <Link
+      href="/admin/guests"
+      className="text-[#C9A96A] hover:underline"
+    >
+      View All
+    </Link>
+
+  </div>
+
+  <div className="mt-8 space-y-4">
+
+    {recentGuests?.length === 0 ? (
+
+      <p className="text-gray-500">
+        No guests yet.
+      </p>
+
+    ) : (
+
+      recentGuests?.map((guest) => (
+
+        <div
+          key={guest.id}
+          className="flex items-center justify-between rounded-2xl border p-5"
+        >
+
+          <div>
+
+            <h3 className="font-medium">
+              {guest.full_name}
+            </h3>
+
+            <p className="text-sm text-gray-500 mt-1">
+              {guest.phone}
+            </p>
+
+          </div>
+
+          <div className="text-right">
+
+            <span
+              className={`rounded-full px-3 py-1 text-xs font-medium ${
+                guest.checked_in
+                  ? "bg-green-100 text-green-700"
+                  : "bg-gray-100 text-gray-600"
+              }`}
+            >
+              {guest.checked_in ? "Checked In" : "Pending"}
+            </span>
+
+          </div>
+
+        </div>
+
+      ))
+
+    )}
+
+  </div>
+
+</div>
+
             <div>
               <div className="flex justify-between mb-2">
                 <span>Guests Attending</span>
@@ -157,7 +248,7 @@ export default async function AdminDashboard() {
 
             <div>
               <div className="flex justify-between mb-2">
-                <span>Pending</span>
+                <span>Awaiting Check-In</span>
                 <span>{pending}</span>
               </div>
 

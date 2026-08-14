@@ -2,96 +2,98 @@
 
 import { motion } from "framer-motion";
 
-const chapters = [
-  {
-    number: "I",
-    title: "One Unexpected Hello",
-    text: "Some conversations are ordinary. Ours quietly changed everything.",
-  },
-  {
-    number: "II",
-    title: "A Beautiful Friendship",
-    text: "Before forever came friendship. Before promises came trust.",
-  },
-  {
-    number: "III",
-    title: "Growing Together",
-    text: "Through seasons of joy, distance, laughter and prayer, our hearts chose each other again and again.",
-  },
-  {
-    number: "IV",
-    title: "The Proposal",
-    text: "One question. One joyful yes. One lifetime waiting to begin.",
-  },
-];
-
 export default function Journey() {
   return (
-    <section className="bg-[#F7F3EB] py-40 px-8">
-
-      <div className="max-w-5xl mx-auto">
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="text-center uppercase tracking-[0.6em] text-xs text-[#C9A96A]"
-        >
-          OUR JOURNEY
-        </motion.p>
-
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mt-8 text-center text-5xl md:text-7xl font-light text-[#2F2A27]"
-        >
-          Every Chapter
-          <br />
-          Led Us Here
-        </motion.h2>
-
-        <div className="mt-32 space-y-32">
-
-          {chapters.map((chapter, index) => (
-            <motion.div
-              key={chapter.number}
-              initial={{ opacity: 0, y: 60 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className={`grid md:grid-cols-2 gap-20 items-center ${
-                index % 2 === 1 ? "md:flex-row-reverse" : ""
-              }`}
-            >
-
-              <div>
-
-                <p className="text-[#C9A96A] uppercase tracking-[0.6em] text-xs">
-                  Chapter {chapter.number}
-                </p>
-
-                <h3 className="mt-6 text-4xl md:text-5xl font-light leading-tight text-[#2F2A27]">
-                  {chapter.title}
-                </h3>
-
-              </div>
-
-              <div>
-
-                <p className="text-lg leading-9 text-[#6B635C]">
-                  {chapter.text}
-                </p>
-
-              </div>
-
-            </motion.div>
-          ))}
-
-        </div>
-
+    <section
+      id="journey"
+      className="relative overflow-hidden bg-[#FAF8F2] pt-24 pb-20 px-8"
+    >
+      {/* Background Glow */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute left-10 top-20 h-72 w-72 rounded-full bg-[#C9A96A]/5 blur-3xl" />
+        <div className="absolute right-10 bottom-20 h-72 w-72 rounded-full bg-[#DCCDA7]/10 blur-3xl" />
       </div>
 
+      <div className="relative max-w-5xl mx-auto text-center">
+
+  <motion.p
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    className="uppercase tracking-[0.6em] text-xs text-[#C9A96A]"
+  >
+    OUR JOURNEY
+  </motion.p>
+
+  <motion.h2
+    initial={{ opacity: 0, y: 25 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ delay: .15 }}
+    viewport={{ once: true }}
+    className="mt-8 text-5xl md:text-7xl font-light text-[#2F2A27] leading-[1.15]"
+  >
+    From Hello
+    <br />
+    To Forever
+  </motion.h2>
+
+  <div className="w-20 h-px bg-[#C9A96A] mx-auto mt-14" />
+
+  <motion.p
+    initial={{ opacity: 0 }}
+    whileInView={{ opacity: 1 }}
+    transition={{ delay: .25 }}
+    viewport={{ once: true }}
+    className="mt-14 max-w-2xl mx-auto text-xl leading-10 text-[#5F5952]"
+  >
+    Ours began with an unexpected hello...
+    became a beautiful friendship...
+    and, by God's perfect timing,
+    grew into a love we now choose forever.
+  </motion.p>
+
+  <motion.p
+    initial={{ opacity: 0 }}
+    whileInView={{ opacity: 1 }}
+    transition={{ delay: .35 }}
+    viewport={{ once: true }}
+    className="mt-10 max-w-xl mx-auto text-lg italic leading-9 text-[#8A817A]"
+  >
+    But every beautiful story deserves
+    its perfect audience.
+  </motion.p>
+
+  <motion.div
+    initial={{ opacity: 0 }}
+    whileInView={{ opacity: 1 }}
+    transition={{ delay: .55 }}
+    viewport={{ once: true }}
+    className="mt-16"
+  >
+
+    <div className="flex justify-center items-center gap-4">
+
+      <div className="w-14 h-px bg-[#C9A96A]" />
+
+      <span className="text-[#C9A96A] text-xl">
+        ❦
+      </span>
+
+      <div className="w-14 h-px bg-[#C9A96A]" />
+
+    </div>
+
+    <p className="mt-8 uppercase tracking-[0.45em] text-[11px] text-[#C9A96A]">
+      TO BE CONTINUED
+    </p>
+
+    <p className="mt-6 text-3xl italic text-[#2F2A27]">
+      ...at the wedding.
+    </p>
+
+  </motion.div>
+
+</div>
     </section>
   );
 }

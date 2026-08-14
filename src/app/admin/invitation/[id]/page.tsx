@@ -17,11 +17,11 @@ export default function InvitationPage() {
   }, []);
 
   async function loadGuest() {
-    const { data, error } = await supabase
-      .from("guests")
-      .select("*")
-      .eq("id", id)
-      .single();
+   const { data, error } = await supabase
+  .from("guests")
+  .select("*")
+  .eq("invite_token", id)
+  .single();
 
     if (error) {
       console.error(error);
@@ -53,11 +53,12 @@ export default function InvitationPage() {
   return (
     <main className="min-h-screen bg-[#FAF8F2] flex items-center justify-center p-10">
       <InvitationCard
-        name={guest.full_name}
-        inviteCode={guest.invite_code}
-        seats={guest.seats}
-        onClose={() => window.history.back()}
-      />
+  name={guest.full_name}
+  inviteCode={guest.invite_code}
+  inviteToken={guest.invite_token}
+  seats={guest.seats}
+  onClose={() => window.history.back()}
+/>
     </main>
   );
 }

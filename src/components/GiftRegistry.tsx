@@ -86,52 +86,11 @@ export default function GiftRegistry() {
 
           </motion.div>
 
-          {/* DOLLAR */}
-
-          <motion.div
-            whileHover={{ y: -6 }}
-            className="rounded-[32px] bg-white shadow-xl p-10"
-          >
-
-            <p className="uppercase tracking-[0.35em] text-xs text-[#C9A96A]">
-              🌍 International
-            </p>
-
-            <h3 className="mt-8 text-3xl font-light">
-              Wise USD
-            </h3>
-
-            <p className="mt-3 text-gray-500">
-              Peculiar Ugbo
-            </p>
-
-            <h1 className="mt-8 text-2xl font-semibold break-all">
-              peculiarugbo@gmail.com
-            </h1>
-
-            <button
-              onClick={() => copy("user@email.com", "usd")}
-              className="mt-10 w-full rounded-full bg-[#2F2A27] text-white py-4 flex items-center justify-center gap-3 hover:opacity-90 transition"
-            >
-
-              {copied === "usd"
-                ? <Check size={20}/>
-                : <Copy size={20}/>}
-
-              {copied === "usd"
-                ? "Copied!"
-                : "Copy Account"}
-
-            </button>
-
-          </motion.div>
-
         </div>
 
         {/* GIFTS */}
 
-        <div className="grid md:grid-cols-3 gap-8 mt-20">
-
+        <div className="flex justify-center mt-20">
           <div className="rounded-3xl bg-white shadow-lg p-8 text-center">
 
             <div className="text-5xl">🏡</div>

@@ -8,6 +8,9 @@ export default function GuestManager() {
   const [guests, setGuests] = useState<any[]>([]);
   const [search, setSearch] = useState("");
   const [guestToDelete, setGuestToDelete] = useState<any>(null);
+  const [copied, setCopied] = useState(false);
+  const [copiedLink, setCopiedLink] = useState("");
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
 
   useEffect(() => {
     fetchGuests();
@@ -87,7 +90,8 @@ export default function GuestManager() {
         className="w-full rounded-xl border p-4 mb-8"
       />
 
-      <div className="rounded-3xl bg-white shadow-lg overflow-hidden">
+      <div className="hidden lg:block">
+  <div className="rounded-3xl bg-white shadow-lg overflow-hidden">
 
         <table className="w-full">
 
@@ -141,12 +145,24 @@ export default function GuestManager() {
                       Edit
                     </Link>
 
-                    <Link
-                      href={`/admin/invitation/${guest.id}`}
-                      className="rounded-full bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
-                    >
-                      Invitation
-                    </Link>
+                    <button
+  onClick={() => {
+  const link = `https://adozofpec27.com/invite/${guest.invite_token}`;
+
+  navigator.clipboard.writeText(link);
+
+  setCopiedLink(link);
+
+  setCopied(true);
+
+  window.setTimeout(() => {
+    setCopied(false);
+  }, 3000);
+}}
+  className="rounded-full bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+>
+  Copy Link
+</button>
 
                     <button
                       onClick={() => setGuestToDelete(guest)}
@@ -166,7 +182,7 @@ You're warmly invited to celebrate our wedding! 💍✨
 
 Please RSVP using the link below:
 
-https://your-wedding-link.com
+https://adozofpec27.com/invite/${guest.invite_token}
 
 We can't wait to celebrate with you.
 
@@ -188,10 +204,197 @@ Peculiar & Chiedozie ❤️`
 
           </tbody>
 
-        </table>
+       </table>
+
+  </div>
+</div>
+{/* MOBILE GUEST CARDS */}
+<div className="lg:hidden space-y-5">
+  {filtered.map((guest) => (
+    <div
+      key={guest.id}
+      className="rounded-3xl bg-white shadow-lg p-5"
+    >
+      {/* Guest Name */}
+      <div className="flex items-start justify-between relative">
+
+  <div>
+    <h2 className="text-xl font-semibold text-[#2F2A27]">
+      {guest.full_name}
+    </h2>
+
+    <p className="mt-1 text-sm text-gray-500">
+      {guest.phone}
+    </p>
+  </div>
+
+  <button
+    onClick={() =>
+      setOpenMenu(
+        openMenu === guest.id ? null : guest.id
+      )
+    }
+    className="h-10 w-10 rounded-full hover:bg-[#F6F2E9] flex items-center justify-center text-2xl"
+  >
+    ⋮
+  </button>
+
+  {openMenu === guest.id && (
+    <div className="absolute right-0 top-12 w-56 rounded-2xl bg-white shadow-2xl border z-40 overflow-hidden">
+
+      <Link
+        href={`/admin/guests/${guest.id}`}
+        className="block px-5 py-4 hover:bg-[#F9F6EF]"
+      >
+        ✏️ Edit Guest
+      </Link>
+
+      <button
+        onClick={() => {
+          const link = `https://adozofpec27.com/invite/${guest.invite_token}`;
+
+          navigator.clipboard.writeText(link);
+
+          setCopiedLink(link);
+
+          setCopied(true);
+
+          setOpenMenu(null);
+
+          setTimeout(() => {
+            setCopied(false);
+          }, 3000);
+        }}
+        className="block w-full text-left px-5 py-4 hover:bg-[#F9F6EF]"
+      >
+        🔗 Copy Invitation Link
+      </button>
+
+      <a
+        href={`https://wa.me/234${guest.phone?.replace(
+          /^0/,
+          ""
+        )}?text=${encodeURIComponent(
+`Hi ${guest.full_name},
+
+You're warmly invited to celebrate our wedding!
+
+https://adozofpec27.com/invite/${guest.invite_token}
+
+Love,
+Peculiar & Chiedozie ❤️`
+        )}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block px-5 py-4 hover:bg-[#F9F6EF]"
+      >
+        💬 Send via WhatsApp
+      </a>
+
+      <button
+        onClick={() => {
+          setGuestToDelete(guest);
+          setOpenMenu(null);
+        }}
+        className="block w-full text-left px-5 py-4 text-red-600 hover:bg-red-50"
+      >
+        🗑 Delete Guest
+      </button>
+
+    </div>
+  )}
+
+</div>
+      {/* Status */}
+      <div className="mt-5 flex flex-wrap gap-3">
+
+        <span
+          className={`rounded-full px-3 py-1 text-sm font-medium ${
+            guest.attending
+              ? "bg-green-100 text-green-700"
+              : "bg-red-100 text-red-700"
+          }`}
+        >
+          {guest.attending ? "✅ Attending" : "❌ Declined"}
+        </span>
+
+        <span
+          className={`rounded-full px-3 py-1 text-sm font-medium ${
+            guest.checked_in
+              ? "bg-blue-100 text-blue-700"
+              : "bg-gray-100 text-gray-600"
+          }`}
+        >
+          {guest.checked_in
+            ? "🟢 Checked In"
+            : "⚪ Not Checked In"}
+        </span>
 
       </div>
 
+      {/* Buttons */}
+      <div className="mt-6 grid grid-cols-2 gap-3">
+
+        <Link
+          href={`/admin/guests/${guest.id}`}
+          className="rounded-full bg-[#C9A96A] py-3 text-center text-white font-medium"
+        >
+          Edit
+        </Link>
+
+        <button
+          onClick={() => {
+            const link = `https://adozofpec27.com/invite/${guest.invite_token}`;
+
+            navigator.clipboard.writeText(link);
+
+            setCopiedLink(link);
+
+            setCopied(true);
+
+            setTimeout(() => {
+              setCopied(false);
+            }, 3000);
+          }}
+          className="rounded-full bg-blue-600 py-3 text-white font-medium"
+        >
+          Copy Link
+        </button>
+        
+        <a
+          href={`https://wa.me/234${guest.phone?.replace(
+            /^0/,
+            ""
+          )}?text=${encodeURIComponent(
+`Hi ${guest.full_name},
+
+You're warmly invited to celebrate our wedding! 💍✨
+
+Please RSVP using the link below:
+
+https://adozofpec27.com/invite/${guest.invite_token}
+
+Love,
+Peculiar & Chiedozie ❤️`
+          )}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="rounded-full bg-green-600 py-3 text-center text-white font-medium"
+        >
+          WhatsApp
+        </a>
+
+        <button
+          onClick={() => setGuestToDelete(guest)}
+          className="rounded-full bg-red-600 py-3 text-white font-medium"
+        >
+          Delete
+        </button>
+
+      </div>
+    </div>
+  ))}
+</div>
       {guestToDelete && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
 
@@ -232,7 +435,47 @@ Peculiar & Chiedozie ❤️`
 
         </div>
       )}
+{copied && (
+  <div
+    className="
+      fixed
+      bottom-6
+      left-1/2
+      -translate-x-1/2
+      md:left-auto
+      md:right-8
+      md:translate-x-0
+      z-50
+      w-[92%]
+      max-w-md
+      rounded-3xl
+      bg-[#2F2A27]
+      p-5
+      text-white
+      shadow-2xl
+    "
+  >
+    <p className="font-medium">
+      ✨ Invitation link copied!
+    </p>
 
+    <div className="mt-4 flex gap-3">
+      <button
+        onClick={() => window.open(copiedLink, "_blank")}
+        className="rounded-full bg-[#C9A96A] px-5 py-2 text-sm text-white hover:opacity-90"
+      >
+        Open Invitation
+      </button>
+
+      <button
+        onClick={() => setCopied(false)}
+        className="rounded-full border border-white/30 px-5 py-2 text-sm hover:bg-white/10"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+)}
     </div>
   );
 }

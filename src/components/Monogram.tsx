@@ -11,7 +11,7 @@ export default function Monogram() {
       className="flex flex-col items-center"
     >
       <p className="uppercase tracking-[0.7em] text-[11px] text-[#C9A96A]">
-        C &nbsp; × &nbsp; P
+        P &nbsp; × &nbsp; C
       </p>
 
       <div className="mt-5 w-28 h-px bg-[#D5BA83]" />

@@ -2,138 +2,176 @@
 
 import { motion } from "framer-motion";
 import Monogram from "@/components/Monogram";
+import { useGuest } from "@/components/GuestProvider";
 
 export default function Hero() {
+  const { guest } = useGuest();
+
   return (
-    <motion.section
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1 }}
-      className="relative min-h-screen bg-[#FAF8F2] px-8 py-20 flex items-center justify-center overflow-hidden"
-    >
-      {/* Editorial Frame */}
-      <div className="absolute inset-6 border border-[#E8DDBF]" />
+    <section className="relative min-h-[100svh] overflow-hidden bg-[#FAF8F2]">
 
-      {/* Corner Details */}
-      <div className="absolute top-10 left-10 w-8 h-8 border-t border-l border-[#C9A96A]/50" />
-      <div className="absolute top-10 right-10 w-8 h-8 border-t border-r border-[#C9A96A]/50" />
-      <div className="absolute bottom-10 left-10 w-8 h-8 border-b border-l border-[#C9A96A]/50" />
-      <div className="absolute bottom-10 right-10 w-8 h-8 border-b border-r border-[#C9A96A]/50" />
+      {/* Editorial Border */}
 
-      {/* Giant Background Initials */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.03 }}
-        transition={{ delay: 0.8, duration: 2 }}
-        className="absolute inset-0 flex items-center justify-center pointer-events-none select-none"
+      <div className="absolute inset-4 md:inset-8 border border-[#E8DDBF]" />
+
+      {/* Decorative Corners */}
+
+      <div className="absolute top-8 right-8 w-8 h-8 border-t border-r border-[#D5BA83]" />
+      <div className="absolute bottom-8 left-8 w-8 h-8 border-b border-l border-[#D5BA83]" />
+      <div className="absolute bottom-8 right-8 w-8 h-8 border-b border-r border-[#D5BA83]" />
+
+      {/* Huge Initials */}
+
+      <h1
+        className="
+        absolute
+        inset-0
+        flex
+        items-center
+        justify-center
+        pointer-events-none
+        select-none
+        text-[#C9A96A]
+        opacity-[0.03]
+        font-light
+        tracking-[0.15em]
+        text-[7rem]
+        sm:text-[10rem]
+        md:text-[15rem]
+        lg:text-[20rem]
+        "
       >
-        <h1
-          className="
-            font-serif
-            font-light
-            tracking-[0.2em]
-            text-[10rem]
-            md:text-[18rem]
-            lg:text-[24rem]
-            text-[#C9A96A]
-          "
-        >
-          C × P
-        </h1>
-      </motion.div>
+        P&C
+      </h1>
 
-      {/* Main Content */}
-      <div className="relative max-w-4xl text-center z-10">
-
-        <Monogram />
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-          className="mt-10 uppercase tracking-[0.55em] text-xs text-[#C9A96A]"
-        >
-          CHAPTER ONE
-        </motion.p>
-
-        <motion.h1
+     <div
+  className="
+  relative
+  z-10
+  flex
+  min-h-[100svh]
+  items-center
+  justify-center
+  px-6
+  py-20
+  md:py-0
+  "
+>
+        <motion.div
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 1 }}
-          className="mt-10 text-7xl md:text-[8rem] leading-none font-light text-[#2F2A27]"
+          transition={{ duration: 1 }}
+          className="max-w-5xl text-center"
         >
-          Forever.
-        </motion.h1>
+          <Monogram />
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.9 }}
-          className="mt-12"
-        >
-          <div className="w-14 h-px bg-[#C9A96A] mx-auto mb-8" />
+          {guest && (
+  <p className="mt-4 text-[#C9A96A] text-sm">
+    Welcome, {guest.full_name}
+  </p>
+)}
 
-          <div className="text-center">
-            <p className="uppercase tracking-[0.45em] text-sm text-[#6B635C]">
-              CHIEDOZIE
-            </p>
+          <p className="mt-12 uppercase tracking-[0.5em] text-[10px] text-[#C9A96A]">
+            Together with our families
+          </p>
 
-            <p className="my-3 text-[#C9A96A] text-xl">&</p>
+          <p className="mt-5 italic text-[#756C65] text-lg leading-8">
+            joyfully invite you to celebrate
+            <br />
+            our wedding.
+          </p>
 
-            <p className="uppercase tracking-[0.45em] text-sm text-[#6B635C]">
+          <div className="mt-20 space-y-5">
+
+            <h1
+              className="
+              font-light
+              tracking-[0.12em]
+              text-[#2F2A27]
+              text-5xl
+              sm:text-6xl
+              md:text-7xl
+              lg:text-8xl
+              "
+            >
               PECULIAR
-            </p>
+            </h1>
+
+            <p className="text-[#C9A96A] text-3xl">&</p>
+
+            <h1
+              className="
+              font-light
+              tracking-[0.12em]
+              text-[#2F2A27]
+              text-5xl
+              sm:text-6xl
+              md:text-7xl
+              lg:text-8xl
+              "
+            >
+              CHIEDOZIE
+            </h1>
+
           </div>
 
-          <div className="w-14 h-px bg-[#C9A96A] mx-auto mt-8" />
-        </motion.div>
+          <div className="flex items-center justify-center gap-5 mt-20">
 
-        {/* Centered Quote */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.3 }}
-          className="mt-16"
-        >
-          <p className="max-w-2xl mx-auto text-center text-xl md:text-2xl italic text-[#5F5952] leading-relaxed">
-            One unexpected hello.
+            <div className="w-16 h-px bg-[#C9A96A]" />
+
+            <div className="w-10 h-10 rounded-full border border-[#D5BA83] flex items-center justify-center text-[#C9A96A]">
+              ❦
+            </div>
+
+            <div className="w-16 h-px bg-[#C9A96A]" />
+
+          </div>
+
+          <p className="mt-14 uppercase tracking-[0.45em] text-[11px] text-[#C9A96A]">
+            Saturday
+          </p>
+
+          <h2 className="mt-5 text-[#2F2A27] font-light text-4xl md:text-6xl">
+            09 • January • 2027
+          </h2>
+
+          <p className="mt-5 uppercase tracking-[0.45em] text-[11px] text-[#8A817A]">
+            Abuja • Nigeria
+          </p>
+
+          <p className="mt-16 italic text-[#5F5952] text-2xl md:text-4xl leading-relaxed">
+            By God's grace,
             <br />
-            A lifetime of certainty.
+            Our forever begins.
           </p>
-        </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.6 }}
-          className="mt-14"
-        >
-          <div className="w-20 h-px bg-[#C9A96A] mx-auto mb-6" />
-
-          <p className="uppercase tracking-[0.55em] text-xs text-[#C9A96A]">
-            09 JANUARY 2027
+          <p className="mt-16 uppercase tracking-[0.4em] text-[11px] text-[#C9A96A]">
+            #ADozofPec27∞
           </p>
-        </motion.div>
 
+        </motion.div>
       </div>
 
-      {/* Scroll Indicator */}
       <motion.div
-        animate={{
-          y: [0, 8, 0],
-        }}
-        transition={{
-          repeat: Infinity,
-          duration: 2,
-        }}
-        className="absolute bottom-10 text-center"
+        animate={{ y: [0, 10, 0] }}
+        transition={{ repeat: Infinity, duration: 3 }}
+        className="
+        absolute
+        bottom-10
+        left-1/2
+        -translate-x-1/2
+        text-center
+        text-[#C9A96A]
+        "
       >
-        <p className="uppercase tracking-[0.4em] text-xs text-[#8C847D]">
-          Begin the Story
+        ❦
+
+        <p className="mt-3 uppercase tracking-[0.45em] text-[10px] text-[#8A817A]">
+          Scroll
         </p>
 
-        <div className="mt-4 w-px h-10 bg-[#C9A96A] mx-auto" />
       </motion.div>
-    </motion.section>
+
+    </section>
   );
 }

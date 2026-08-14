@@ -4,7 +4,10 @@ import { motion } from "framer-motion";
 
 export default function Proposal() {
   return (
-    <section className="bg-[#FAF8F2] min-h-screen flex items-center justify-center px-8">
+    <section
+  id="proposal"
+  className="bg-[#FAF8F2] min-h-screen flex items-center justify-center px-8"
+>
 
       <div className="max-w-4xl mx-auto text-center">
 
