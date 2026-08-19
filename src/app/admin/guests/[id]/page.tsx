@@ -47,7 +47,7 @@ console.log("Guest Data:", data);
 console.log("Invite Token:", data.invite_token);
 
 setCheckedIn(data.checked_in || false);
-setAttending(data.attendance_status === "Attending");
+setAttending(data.attending ?? false);
   }
 
   async function updateGuest() {

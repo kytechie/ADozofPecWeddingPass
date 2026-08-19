@@ -36,11 +36,16 @@ export default function CheckInPage() {
   }
 
   if (data.checked_in) {
-    setError("");
-    setGuest(data);
-    setLoading(false);
-    return;
-  }
+  setError("Guest has already been checked in");
+  setGuest(data);
+  setLoading(false);
+
+  setTimeout(() => {
+    setGuest(null);
+  }, 3000);
+
+  return;
+}
 
   const { error: updateError } = await supabase
     .from("guests")
@@ -63,6 +68,9 @@ export default function CheckInPage() {
 
   setError("");
   setLoading(false);
+  setTimeout(() => {
+  setGuest(null);
+}, 3000);
 }
 
   return (
@@ -112,9 +120,7 @@ export default function CheckInPage() {
     error ? "text-orange-600" : "text-green-600"
   }`}
 >
-  {error
-    ? "Already Checked In"
-    : "Successfully Checked In"}
+  
 </div>
 
             <div className="mt-8">

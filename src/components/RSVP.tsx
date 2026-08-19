@@ -55,13 +55,14 @@ useEffect(() => {
     setSuccess(false);
     setErrorMessage("");
 
-    const inviteCode =
+   const inviteCode =
   "PC-" +
   uuidv4()
     .replace(/-/g, "")
     .substring(0, 6)
     .toUpperCase();
 
+const inviteToken = uuidv4();
 const qrCode = uuidv4();
 
 let error;
@@ -79,17 +80,19 @@ if (guest) {
   ({ error } = await supabase
     .from("guests")
     .insert([
-      {
-  full_name: fullName.trim(),
-  email: email.trim(),
-  phone: phone.trim(),
-  attending,
-  seats: attending ? 1 : 0,
-  message: message.trim(),
-  invite_code: inviteCode,
-  qr_code: qrCode,
-}
-    ]));
+  {
+    full_name: fullName.trim(),
+    email: email.trim(),
+    phone: phone.trim(),
+    attending,
+    seats: attending ? 1 : 0,
+    message: message.trim(),
+
+    invite_code: inviteCode,
+    invite_token: inviteToken,
+    qr_code: qrCode,
+  }
+]));
 }
 
     setLoading(false);
@@ -110,7 +113,9 @@ if (guest) {
 setGuestName(guest ? guest.full_name : fullName);
 setGuestSeats(attending ? 1 : 0);
 setInviteCode(guest ? guest.invite_code : inviteCode);
-setInviteToken(guest ? guest.invite_token : qrCode);
+setInviteToken(
+  guest ? guest.invite_token : inviteToken
+);
 
 setSuccess(true);
 
@@ -139,7 +144,6 @@ setMessage("");
       setAttending(null);
       setMessage("");
     } else {
-      // Invitation link opened
       setFullName(guest.full_name);
       setEmail(guest.email);
       setPhone(guest.phone);
@@ -151,6 +155,8 @@ setMessage("");
     setSuccess(false);
     setOpen(true);
   }}
+
+  onGift={() => setGiftOpen(true)}
 />
 
       {/* MODAL */}

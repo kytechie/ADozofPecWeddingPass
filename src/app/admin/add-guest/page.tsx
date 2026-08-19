@@ -59,7 +59,7 @@ export default function AddGuestPage() {
   invite_token: inviteToken,
   qr_code: qrCode,          // 👈 ADD THIS LINE
 
-  attending: false,
+  attending: null,
   checked_in: false,
 });
 
