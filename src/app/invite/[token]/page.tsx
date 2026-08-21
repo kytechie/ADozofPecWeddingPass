@@ -28,7 +28,11 @@ async function loadGuest() {
     .eq("invite_token", token)
     .single();
 
-  if (!error) {
+  console.log("TOKEN FROM URL:", token);
+  console.log("GUEST DATA:", data);
+  console.log("GUEST ERROR:", error);
+
+  if (data) {
     setLocalGuest(data);
   }
 
