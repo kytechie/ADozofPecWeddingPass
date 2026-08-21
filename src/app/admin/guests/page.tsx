@@ -147,7 +147,7 @@ export default function GuestManager() {
 
                     <button
   onClick={() => {
-  const link = `https://adozofpec27.com/invite/${guest.invite_token}`;
+  const link = `https://adozofpecwedding-pass-kytechies-projects.vercel.app/invite/${guest.invite_token}`;
 
   navigator.clipboard.writeText(link);
 
@@ -182,7 +182,7 @@ You're warmly invited to celebrate our wedding! 💍✨
 
 Please RSVP using the link below:
 
-https://adozofpec27.com/invite/${guest.invite_token}
+https://adozofpecwedding-pass-kytechies-projects.vercel.app/invite/${guest.invite_token}
 
 We can't wait to celebrate with you.
 
@@ -251,8 +251,8 @@ Peculiar & Chiedozie ❤️`
 
       <button
         onClick={() => {
-          const link = `https://adozofpec27.com/invite/${guest.invite_token}`;
-
+          const link = `/invite/${guest.invite_token}`;
+https://adozofpecwedding-pass-kytechies-projects.vercel.app
           navigator.clipboard.writeText(link);
 
           setCopiedLink(link);
@@ -279,7 +279,7 @@ Peculiar & Chiedozie ❤️`
 
 You're warmly invited to celebrate our wedding!
 
-https://adozofpec27.com/invite/${guest.invite_token}
+https://adozofpecwedding-pass-kytechies-projects.vercel.app/invite/${guest.invite_token}
 
 Love,
 Peculiar & Chiedozie ❤️`
@@ -344,7 +344,7 @@ Peculiar & Chiedozie ❤️`
 
         <button
           onClick={() => {
-            const link = `https://adozofpec27.com/invite/${guest.invite_token}`;
+            const link = `https://adozofpecwedding-pass-kytechies-projects.vercel.app/invite/${guest.invite_token}`;
 
             navigator.clipboard.writeText(link);
 
@@ -372,7 +372,7 @@ You're warmly invited to celebrate our wedding! 💍✨
 
 Please RSVP using the link below:
 
-https://adozofpec27.com/invite/${guest.invite_token}
+https://adozofpecwedding-pass-kytechies-projects.vercel.app/invite/${guest.invite_token}
 
 Love,
 Peculiar & Chiedozie ❤️`

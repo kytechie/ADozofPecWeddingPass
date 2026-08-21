@@ -94,7 +94,7 @@ setAttending(data.attending ?? false);
   }
 
   function copyInvitationLink() {
-    const link = `https://adozofpec27.com/invite/${inviteToken}`;
+    const link = `https://adozofpecwedding-pass-kytechies-projects.vercel.app/invite/${inviteToken}`;
 
     navigator.clipboard.writeText(link);
 
@@ -103,7 +103,7 @@ setAttending(data.attending ?? false);
 
   function openInvitation() {
     window.open(
-      `https://adozofpec27.com/invite/${inviteToken}`,
+      `https://adozofpecwedding-pass-kytechies-projects.vercel.app/invite/${inviteToken}`,
       "_blank"
     );
   }
@@ -118,7 +118,7 @@ You're warmly invited to celebrate our wedding.
 
 Please RSVP using your invitation below:
 
-https://adozofpec27.com/invite/${inviteToken}
+https://adozofpecwedding-pass-kytechies-projects.vercel.app/invite/${inviteToken}
 
 Love,
 Peculiar & Chiedozie ❤️`
@@ -235,7 +235,7 @@ Peculiar & Chiedozie ❤️`
   </p>
 
   <QRCode
-    value={`https://adozofpec27.com/invite/${inviteToken}`}
+    value={`https://adozofpecwedding-pass-kytechies-projects.vercel.app/invite/${inviteToken}`}
     size={180}
   />
 

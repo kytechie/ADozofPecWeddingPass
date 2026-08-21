@@ -50,7 +50,7 @@ export const metadata: Metadata = {
 
     siteName: "Peculiar & Chiedozie",
   },
-  metadataBase: new URL("https://adozofpec27.com"),
+  metadataBase: new URL("https://adozofpecwedding-pass-kytechies-projects.vercel.app"),
 };
 export default function RootLayout({
   children,

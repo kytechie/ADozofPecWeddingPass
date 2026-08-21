@@ -102,7 +102,7 @@ export default function InvitationCard({
           <div className="rounded-3xl bg-white p-5 shadow-lg">
 
            <QRCode
-  value={`https://adozofpec27.com/invite/${inviteToken}`}
+  value={`https://adozofpecwedding-pass-kytechies-projects.vercel.app/invite/${inviteToken}`}
   size={180}
 />
 
