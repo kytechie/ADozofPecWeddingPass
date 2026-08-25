@@ -3,7 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
-console.log("CURRENT SUPABASE URL:", supabaseUrl);
+console.log("CURRENT SUPABASE URL v2:", supabaseUrl);
 
 export const supabase = createClient(
   supabaseUrl,
