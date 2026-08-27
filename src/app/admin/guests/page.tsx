@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
+const WEBSITE_URL =
+"https://adozofpec27-v2.vercel.app";
 
 export default function GuestManager() {
   const [guests, setGuests] = useState<any[]>([]);
@@ -145,9 +147,8 @@ export default function GuestManager() {
                       Edit
                     </Link>
 
-                    <button
-  onClick={() => {
-  const link = `https://adozofpecwedding-pass-kytechies-projects.vercel.app/invite/${guest.invite_token}`;
+ onClick={() => {
+  const link = `${WEBSITE_URL}/invite/${guest.invite_token}`;
 
   navigator.clipboard.writeText(link);
 
@@ -155,7 +156,9 @@ export default function GuestManager() {
 
   setCopied(true);
 
-  window.setTimeout(() => {
+  setOpenMenu(null);
+
+  setTimeout(() => {
     setCopied(false);
   }, 3000);
 }}
@@ -182,7 +185,7 @@ You're warmly invited to celebrate our wedding! 💍✨
 
 Please RSVP using the link below:
 
-https://adozofpecwedding-pass-kytechies-projects.vercel.app/invite/${guest.invite_token}
+${WEBSITE_URL}/invite/${guest.invite_token}
 
 We can't wait to celebrate with you.
 
@@ -252,7 +255,7 @@ Peculiar & Chiedozie ❤️`
       <button
         onClick={() => {
           const link = `/invite/${guest.invite_token}`;
-https://adozofpecwedding-pass-kytechies-projects.vercel.app
+${WEBSITE_URL}/invite/${guest.invite_token}
           navigator.clipboard.writeText(link);
 
           setCopiedLink(link);
@@ -279,8 +282,7 @@ https://adozofpecwedding-pass-kytechies-projects.vercel.app
 
 You're warmly invited to celebrate our wedding!
 
-https://adozofpecwedding-pass-kytechies-projects.vercel.app/invite/${guest.invite_token}
-
+${WEBSITE_URL}/invite/${guest.invite_token}
 Love,
 Peculiar & Chiedozie ❤️`
         )}`}
@@ -344,7 +346,8 @@ Peculiar & Chiedozie ❤️`
 
         <button
           onClick={() => {
-            const link = `https://adozofpecwedding-pass-kytechies-projects.vercel.app/invite/${guest.invite_token}`;
+            const link =
+`${WEBSITE_URL}/invite/${guest.invite_token}`;
 
             navigator.clipboard.writeText(link);
 
@@ -372,7 +375,7 @@ You're warmly invited to celebrate our wedding! 💍✨
 
 Please RSVP using the link below:
 
-https://adozofpecwedding-pass-kytechies-projects.vercel.app/invite/${guest.invite_token}
+${WEBSITE_URL}/invite/${guest.invite_token}
 
 Love,
 Peculiar & Chiedozie ❤️`
