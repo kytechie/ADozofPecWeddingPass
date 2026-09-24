@@ -27,10 +27,9 @@ export default function InvitationPage() {
     console.log("Searching token:", token);
 
     const { data, error } = await supabase
-      .from("guests")
-      .select("*")
-      .eq("invite_token", token)
-      .maybeSingle();
+  .from("guests")
+  .select("id, full_name, invite_token")
+  .eq("invite_token", token);
 
 
     console.log("Supabase returned data:", data);

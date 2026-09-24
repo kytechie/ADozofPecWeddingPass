@@ -4,6 +4,10 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import QRCode from "react-qr-code";
+import { parsePhoneNumberFromString } from "libphonenumber-js";
+
+
+const WEBSITE_URL = "https://adozofpec27-v2.vercel.app";
 
 export default function EditGuestPage() {
   const { id } = useParams();
@@ -93,42 +97,62 @@ setAttending(data.attending ?? false);
     router.push("/admin/guests");
   }
 
-  function copyInvitationLink() {
-    const link = `${WEBSITE_URL}/invite/${guest.invite_token};
+ function copyInvitationLink() {
+  const link = `${WEBSITE_URL}/invite/${inviteToken}`;
 
-    navigator.clipboard.writeText(link);
+  navigator.clipboard.writeText(link);
 
-    alert("Invitation link copied!");
+  alert("Invitation link copied!");
+}
+
+function openInvitation() {
+  window.open(
+   `${WEBSITE_URL}/invite/${inviteToken}`,
+    "_blank"
+  );
+}
+
+function sendWhatsAppReminder() {
+  let parsed = parsePhoneNumberFromString(phone);
+
+  // If user entered a Nigerian local number like 0803...
+  if (!parsed) {
+    parsed = parsePhoneNumberFromString(phone, "NG");
   }
 
-  function openInvitation() {
-    window.open(
-      ${WEBSITE_URL}/invite/${guest.invite_token}
-      "_blank"
+  if (!parsed || !parsed.isValid()) {
+    alert(
+      "Please enter a valid phone number with the correct country code."
     );
+    return;
   }
 
-  function sendWhatsAppReminder() {
-    const phoneNumber = phone.replace(/^0/, "234");
+  const phoneNumber = parsed.number.replace("+", "");
 
-    const message = encodeURIComponent(
-      `Hi ${fullName},
+  const message = encodeURIComponent(`
+
+Hi ${fullName},
 
 You're warmly invited to celebrate our wedding.
 
-Please RSVP using your invitation below:
+Please RSVP:
 
-${WEBSITE_URL}/invite/${guest.invite_token}
+${WEBSITE_URL}/invite/${inviteToken}
 
 Love,
-Peculiar & Chiedozie ❤️`
-    );
+Peculiar & Chiedozie ❤️
+`);
 
-    window.open(
-      `https://wa.me/${phoneNumber}?text=${message}`,
-      "_blank"
-    );
-  }
+const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
+
+console.log("Original phone:", phone);
+console.log("Parsed:", parsed.number);
+console.log("Final:", phoneNumber);
+console.log("URL:", whatsappUrl);
+
+window.open(whatsappUrl, "_blank");
+
+}
 
   async function markCheckedIn() {
     const { error } = await supabase
@@ -206,7 +230,7 @@ Peculiar & Chiedozie ❤️`
           <input
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            placeholder="Phone"
+            placeholder="Include country code (e.g. +2348012345678)"
             className="w-full rounded-xl border p-4"
           />
 <label className="text-sm font-medium text-gray-600">
@@ -235,9 +259,9 @@ Peculiar & Chiedozie ❤️`
   </p>
 
   <QRCode
-    value={${WEBSITE_URL}/invite/${guest.invite_token}}
-    size={180}
-  />
+  value={`${WEBSITE_URL}/invite/${inviteToken}`}
+  size={180}
+/>
 
 </div>
 

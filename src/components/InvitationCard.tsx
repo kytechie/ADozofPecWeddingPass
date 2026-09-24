@@ -3,6 +3,9 @@
 import QRCode from "react-qr-code";
 import AddToCalendar from "./AddToCalendar";
 
+const WEBSITE_URL =
+  "https://adozofpec27-v2.vercel.app";
+
 type InvitationCardProps = {
   name: string;
   inviteCode: string;
@@ -100,9 +103,8 @@ export default function InvitationCard({
         <div className="mt-12 flex justify-center">
 
           <div className="rounded-3xl bg-white p-5 shadow-lg">
-
-           <QRCode
-  value={`${WEBSITE_URL}/invite/${guest.invite_token}}
+<QRCode
+  value={`${WEBSITE_URL}/invite/${inviteToken}`}
   size={180}
 />
 

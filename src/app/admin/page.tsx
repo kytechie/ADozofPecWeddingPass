@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import {
@@ -8,36 +11,74 @@ import {
   XCircle,
 } from "lucide-react";
 
-export default async function AdminDashboard() {
-  const { count: totalGuests } = await supabase
-    .from("guests")
-    .select("*", { count: "exact", head: true });
+type Guest = {
+  id: string;
+  full_name: string;
+  phone: string;
+  checked_in: boolean;
+  checked_in_at: string | null;
+};
 
-  const { count: checkedIn } = await supabase
-    .from("guests")
-    .select("*", { count: "exact", head: true })
-    .eq("checked_in", true);
+export default function AdminDashboard() {
+ const [totalGuests, setTotalGuests] = useState(0);
+const [checkedIn, setCheckedIn] = useState(0);
+const [attending, setAttending] = useState(0);
+const [declined, setDeclined] = useState(0);
 
-  const { count: attending } = await supabase
-    .from("guests")
-    .select("*", { count: "exact", head: true })
-    .eq("attending", true)
+const [recentGuests, setRecentGuests] = useState<Guest[]>([]);
 
-    const { count: declined } = await supabase
-  .from("guests")
-  .select("*", { count: "exact", head: true })
-  .eq("attending", false);
+useEffect(() => {
+  loadDashboard();
+}, []);
 
-  const pending = Math.max(
+async function loadDashboard() {
+  const [
+    total,
+    checked,
+    attendingGuests,
+    declinedGuests,
+    recent,
+  ] = await Promise.all([
+    supabase
+      .from("guests")
+      .select("*", { count: "exact", head: true }),
+
+    supabase
+      .from("guests")
+      .select("*", { count: "exact", head: true })
+      .eq("checked_in", true),
+
+    supabase
+      .from("guests")
+      .select("*", { count: "exact", head: true })
+      .eq("attending", true),
+
+    supabase
+      .from("guests")
+      .select("*", { count: "exact", head: true })
+      .eq("attending", false),
+
+    supabase
+      .from("guests")
+      .select("*")
+      .eq("checked_in", true)
+      .order("checked_in_at", {
+        ascending: false,
+      })
+      .limit(5),
+  ]);
+
+  setTotalGuests(total.count ?? 0);
+  setCheckedIn(checked.count ?? 0);
+  setAttending(attendingGuests.count ?? 0);
+  setDeclined(declinedGuests.count ?? 0);
+  setRecentGuests((recent.data as Guest[]) ?? []);
+}
+
+const pending = Math.max(
   0,
-  (attending ?? 0) - (checkedIn ?? 0)
+  attending - checkedIn
 );
-  const { data: recentGuests } = await supabase
-  .from("guests")
-  .select("*")
-  .eq("checked_in", true)
-.order("checked_in_at", { ascending: false })
-  .limit(5);
   return (
 
   
@@ -137,7 +178,7 @@ export default async function AdminDashboard() {
             <div>
               <div className="flex justify-between mb-2">
                 <span>Guests Checked In</span>
-                <span>{checkedIn ?? 0}</span>
+                <span>{checkedIn}</span>
               </div>
 
               <div className="h-3 rounded-full bg-gray-200 overflow-hidden">
@@ -145,10 +186,10 @@ export default async function AdminDashboard() {
                   className="h-full bg-green-500"
                   style={{
                     width: `${
-                      totalGuests
-                        ? ((checkedIn ?? 0) / totalGuests) * 100
-                        : 0
-                    }%`,
+  totalGuests
+    ? (checkedIn / totalGuests) * 100
+    : 0
+}%`,
                   }}
                 />
               </div>
@@ -175,7 +216,7 @@ export default async function AdminDashboard() {
 
   <div className="mt-8 space-y-4">
 
-    {recentGuests?.length === 0 ? (
+    {recentGuests.length === 0 ? (
 
       <p className="text-gray-500">
         No guests yet.
@@ -183,7 +224,7 @@ export default async function AdminDashboard() {
 
     ) : (
 
-      recentGuests?.map((guest) => (
+     recentGuests.map((guest) => (
 
         <div
           key={guest.id}
@@ -229,7 +270,7 @@ export default async function AdminDashboard() {
             <div>
               <div className="flex justify-between mb-2">
                 <span>Guests Attending</span>
-                <span>{attending ?? 0}</span>
+                <span>{attending}</span>
               </div>
 
               <div className="h-3 rounded-full bg-gray-200 overflow-hidden">
@@ -237,10 +278,10 @@ export default async function AdminDashboard() {
                   className="h-full bg-[#C9A96A]"
                   style={{
                     width: `${
-                      totalGuests
-                        ? ((attending ?? 0) / totalGuests) * 100
-                        : 0
-                    }%`,
+  totalGuests
+    ? (attending / totalGuests) * 100
+    : 0
+}%`,
                   }}
                 />
               </div>
@@ -284,13 +325,13 @@ function Card({
   color: string;
 }) {
   return (
-    <div className="rounded-3xl bg-white shadow-lg p-8 transition hover:shadow-2xl">
+    <div className="rounded-3xl bg-white p-8 shadow-lg transition hover:shadow-2xl">
 
       <div className="flex items-center justify-between">
 
         <div>
 
-          <p className="uppercase tracking-[0.3em] text-xs text-gray-500">
+          <p className="text-xs uppercase tracking-[0.3em] text-gray-500">
             {title}
           </p>
 
@@ -302,7 +343,9 @@ function Card({
 
         <div
           className="flex h-16 w-16 items-center justify-center rounded-2xl text-white"
-          style={{ backgroundColor: color }}
+          style={{
+            backgroundColor: color,
+          }}
         >
           {icon}
         </div>

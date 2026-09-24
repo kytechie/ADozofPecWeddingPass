@@ -48,25 +48,30 @@ export default function AddGuestPage() {
     const inviteToken = crypto.randomUUID();
     const qrCode = crypto.randomUUID();
 
-   const { error } = await supabase.from("guests").insert({
-  full_name: fullName,
-  email,
-  phone,
-  seats,
-  table_id: tableId || null,
+   const { data, error } = await supabase
+  .from("guests")
+  .insert({
+    full_name: fullName,
+    email,
+    phone,
+    seats,
+    table_id: tableId || null,
+    invite_code: inviteCode,
+    invite_token: inviteToken,
+    qr_code: qrCode,
+    attending: null,
+    checked_in: false,
+  })
+  .select();
 
-  invite_code: inviteCode,
-  invite_token: inviteToken,
-  qr_code: qrCode,          // 👈 ADD THIS LINE
+console.log("DATA:", data);
+console.log("ERROR:", error);
 
-  attending: null,
-  checked_in: false,
-});
-
-    if (error) {
-      alert(error.message);
-      return;
-    }
+if (error) {
+  console.error(error);
+  alert(JSON.stringify(error, null, 2));
+  return;
+}
 
     alert("Guest added successfully!");
 
