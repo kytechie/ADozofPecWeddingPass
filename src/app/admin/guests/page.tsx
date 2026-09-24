@@ -76,7 +76,7 @@ export default function GuestManager() {
             href="/admin/add-guest"
             className="rounded-full bg-[#2F2A27] px-6 py-3 text-white hover:opacity-90"
           >
-            Add Guest
+            Add New Guest
           </Link>
         </div>
       </div>
