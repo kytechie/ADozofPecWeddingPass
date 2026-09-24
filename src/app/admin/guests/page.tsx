@@ -8,10 +8,14 @@ const WEBSITE_URL = "https://a-doz-of-pec27.vercel.app";
 
 function formatPhoneForWhatsApp(phone?: string) {
   if (!phone) return "";
-  return phone
-    .replace(/\s/g, "")
-    .replace(/\+/g, "")
-    .replace(/^0/, "234");
+
+  const cleaned = phone.replace(/[\s()+-]/g, "");
+
+  if (cleaned.startsWith("0")) {
+    return `234${cleaned.slice(1)}`;
+  }
+
+  return cleaned.startsWith("+") ? cleaned.slice(1) : cleaned;
 }
 
 export default function GuestManager() {
@@ -76,7 +80,7 @@ export default function GuestManager() {
             href="/admin/add-guest"
             className="rounded-full bg-[#2F2A27] px-6 py-3 text-white hover:opacity-90"
           >
-            Add New Guest
+            Add Guest
           </Link>
         </div>
       </div>
