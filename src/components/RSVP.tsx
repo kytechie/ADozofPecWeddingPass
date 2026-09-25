@@ -21,6 +21,9 @@ export default function RSVP() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [submittedAttending, setSubmittedAttending] = useState<boolean | null>(
+    null
+  );
   const [inviteCode, setInviteCode] = useState("");
   const [inviteToken, setInviteToken] = useState("");
   const [guestName, setGuestName] = useState("");
@@ -54,6 +57,7 @@ export default function RSVP() {
     setLoading(true);
     setSuccess(false);
     setErrorMessage("");
+    setSubmittedAttending(attending);
 
     let error: any = null;
 
@@ -147,6 +151,7 @@ export default function RSVP() {
             setMessage("");
             setErrorMessage("");
             setSuccess(false);
+            setSubmittedAttending(null);
             setOpen(true);
             return;
           }
@@ -166,6 +171,7 @@ export default function RSVP() {
             setGuestSeats(guest.seats ?? 1);
             setInviteCode(guest.invite_code);
             setInviteToken(guest.invite_token);
+            setSubmittedAttending(true);
             setSuccess(true);
             setOpen(true);
             return;
@@ -176,6 +182,7 @@ export default function RSVP() {
             setGuestSeats(0);
             setInviteCode("");
             setInviteToken("");
+            setSubmittedAttending(false);
             setSuccess(true);
             setOpen(true);
             return;
@@ -183,6 +190,7 @@ export default function RSVP() {
 
           setErrorMessage("");
           setSuccess(false);
+          setSubmittedAttending(null);
           setOpen(true);
         }}
         onGift={() => setGiftOpen(true)}
@@ -208,6 +216,7 @@ export default function RSVP() {
                   setOpen(false);
                   setErrorMessage("");
                   setSuccess(false);
+                  setSubmittedAttending(null);
                   setInviteCode("");
 
                   if (!guest) {
@@ -393,7 +402,7 @@ export default function RSVP() {
                     </div>
                   )}
                 </form>
-              ) : guest && attending === true ? (
+              ) : guest && submittedAttending === true ? (
                 <InvitationCard
                   name={guestName}
                   inviteCode={inviteCode}
@@ -410,11 +419,12 @@ export default function RSVP() {
 
                     setAttending(null);
                     setMessage("");
+                    setSubmittedAttending(null);
                   }}
                 />
               ) : (
                 <div className="text-center text-gray-600">
-                  Thank you. Your RSVP has been received.
+                  Thank you for your response. We’ll miss you at the wedding.
                 </div>
               )}
             </motion.div>
