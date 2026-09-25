@@ -15,7 +15,7 @@ function formatPhoneForWhatsApp(phone?: string) {
     return `234${cleaned.slice(1)}`;
   }
 
-  return cleaned.startsWith("+") ? cleaned.slice(1) : cleaned;
+  return cleaned;
 }
 
 export default function GuestManager() {
@@ -24,7 +24,6 @@ export default function GuestManager() {
   const [guestToDelete, setGuestToDelete] = useState<any>(null);
   const [copied, setCopied] = useState(false);
   const [copiedLink, setCopiedLink] = useState("");
-  const [openMenu, setOpenMenu] = useState<string | null>(null);
 
   useEffect(() => {
     fetchGuests();
@@ -95,31 +94,31 @@ export default function GuestManager() {
       />
 
       <div className="overflow-x-auto rounded-3xl border border-[#2F2A27] bg-[#FAF8F2]">
-        <table className="w-full min-w-[1400px] border-collapse">
+        <table className="w-full min-w-[1300px] border-collapse">
           <thead className="bg-[#F4EDE0]">
             <tr className="border-b border-[#2F2A27]">
-              <th className="w-[18%] p-3 text-left text-sm font-semibold text-[#2F2A27] whitespace-nowrap">
+              <th className="w-[16%] px-3 py-2 text-left text-sm font-semibold text-[#2F2A27] whitespace-nowrap">
                 Guest
               </th>
-              <th className="w-[18%] p-3 text-left text-sm font-semibold text-[#2F2A27] whitespace-nowrap">
+              <th className="w-[16%] px-3 py-2 text-left text-sm font-semibold text-[#2F2A27] whitespace-nowrap">
                 Email
               </th>
-              <th className="w-[14%] p-3 text-left text-sm font-semibold text-[#2F2A27] whitespace-nowrap">
+              <th className="w-[14%] px-3 py-2 text-left text-sm font-semibold text-[#2F2A27] whitespace-nowrap">
                 Phone
               </th>
-              <th className="w-[12%] p-3 text-left text-sm font-semibold text-[#2F2A27] whitespace-nowrap">
+              <th className="w-[12%] px-3 py-2 text-left text-sm font-semibold text-[#2F2A27] whitespace-nowrap">
                 RSVP Status
               </th>
-              <th className="w-[10%] p-3 text-left text-sm font-semibold text-[#2F2A27] whitespace-nowrap">
+              <th className="w-[12%] px-3 py-2 text-left text-sm font-semibold text-[#2F2A27] whitespace-nowrap">
                 Check-In
               </th>
-              <th className="w-[6%] p-3 text-left text-sm font-semibold text-[#2F2A27] whitespace-nowrap">
+              <th className="w-[6%] px-3 py-2 text-left text-sm font-semibold text-[#2F2A27] whitespace-nowrap">
                 Seats
               </th>
-              <th className="w-[12%] p-3 text-left text-sm font-semibold text-[#2F2A27] whitespace-nowrap">
+              <th className="w-[10%] px-3 py-2 text-left text-sm font-semibold text-[#2F2A27] whitespace-nowrap">
                 Invite Code
               </th>
-              <th className="w-[20%] p-3 text-center text-sm font-semibold text-[#2F2A27] whitespace-nowrap">
+              <th className="w-[14%] px-3 py-2 text-center text-sm font-semibold text-[#2F2A27] whitespace-nowrap">
                 Actions
               </th>
             </tr>
@@ -128,19 +127,19 @@ export default function GuestManager() {
           <tbody>
             {filtered.map((guest) => (
               <tr key={guest.id} className="border-b border-[#2F2A27]">
-                <td className="p-4 text-sm text-[#2F2A27] whitespace-nowrap">
+                <td className="px-3 py-3 text-sm text-[#2F2A27] whitespace-nowrap">
                   {guest.full_name}
                 </td>
 
-                <td className="p-4 text-sm text-[#2F2A27] whitespace-nowrap">
+                <td className="px-3 py-3 text-sm text-[#2F2A27] whitespace-nowrap">
                   {guest.email}
                 </td>
 
-                <td className="p-4 text-sm text-[#2F2A27] whitespace-nowrap">
+                <td className="px-3 py-3 text-sm text-[#2F2A27] whitespace-nowrap">
                   {guest.phone}
                 </td>
 
-                <td className="p-4 text-sm text-[#2F2A27] whitespace-nowrap">
+                <td className="px-3 py-3 text-sm text-[#2F2A27] whitespace-nowrap">
                   {guest.checked_in
                     ? guest.attending
                       ? "✅ Attending"
@@ -148,23 +147,23 @@ export default function GuestManager() {
                     : "Pending"}
                 </td>
 
-                <td className="p-4 text-sm text-[#2F2A27] whitespace-nowrap">
-                  {guest.checked_in ? "🟢 Yes" : "⚪ No"}
+                <td className="px-3 py-3 text-sm text-[#2F2A27] whitespace-nowrap">
+                  {guest.checked_in ? "🟢 Yes" : "⚪ Not Checked In"}
                 </td>
 
-                <td className="p-4 text-sm text-[#2F2A27] whitespace-nowrap">
+                <td className="px-3 py-3 text-sm text-[#2F2A27] whitespace-nowrap">
                   {guest.seats ?? "-"}
                 </td>
 
-                <td className="p-4 text-sm text-[#2F2A27] whitespace-nowrap">
+                <td className="px-3 py-3 text-sm text-[#2F2A27] whitespace-nowrap">
                   {guest.invite_code ?? "-"}
                 </td>
 
-                <td className="p-4">
-                  <div className="flex flex-wrap gap-2 justify-center">
+                <td className="px-3 py-3">
+                  <div className="flex flex-nowrap items-center justify-center gap-2">
                     <Link
                       href={`/admin/guests/${guest.id}`}
-                      className="rounded-full bg-[#C9A96A] px-4 py-2 text-white hover:opacity-90"
+                      className="rounded-full bg-[#C9A96A] px-3 py-1.5 text-xs text-white hover:opacity-90"
                     >
                       Edit
                     </Link>
@@ -180,14 +179,14 @@ export default function GuestManager() {
                           setCopied(false);
                         }, 3000);
                       }}
-                      className="rounded-full bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+                      className="rounded-full bg-blue-600 px-3 py-1.5 text-xs text-white hover:bg-blue-700"
                     >
                       Copy Link
                     </button>
 
                     <button
                       onClick={() => setGuestToDelete(guest)}
-                      className="rounded-full bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+                      className="rounded-full bg-red-600 px-3 py-1.5 text-xs text-white hover:bg-red-700"
                     >
                       Delete
                     </button>
@@ -209,7 +208,7 @@ Peculiar & Chiedozie ❤️`
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="rounded-full bg-green-600 px-4 py-2 text-white hover:bg-green-700"
+                      className="rounded-full bg-green-600 px-3 py-1.5 text-xs text-white hover:bg-green-700"
                     >
                       WhatsApp
                     </a>
