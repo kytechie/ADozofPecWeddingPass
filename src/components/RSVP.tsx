@@ -112,10 +112,8 @@ if (guest) {
 }
 setGuestName(guest ? guest.full_name : fullName);
 setGuestSeats(attending ? 1 : 0);
-setInviteCode(guest ? guest.invite_code : inviteCode);
-setInviteToken(
-  guest ? guest.invite_token : inviteToken
-);
+setInviteCode(guest?.invite_code ?? inviteCode);
+setInviteToken(guest?.invite_token ?? inviteToken);
 
 setSuccess(true);
 

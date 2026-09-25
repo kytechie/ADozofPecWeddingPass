@@ -8,8 +8,9 @@ type Guest = {
   email: string;
   phone: string;
   seats: number;
-  invite_code: string;
-  invite_token: string;
+  invite_code: string | null;
+  invite_token: string | null;
+  qr_code: string | null;
   attending: boolean | null;
   message: string | null;
 };
@@ -24,12 +25,19 @@ const GuestContext = createContext<GuestContextType>({
   setGuest: () => {},
 });
 
-export function GuestProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function GuestProvider({ children }: { children: React.ReactNode }) {
   const [guest, setGuestState] = useState<Guest | null>(null);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("guest");
+    if (saved) {
+      try {
+        setGuestState(JSON.parse(saved));
+      } catch {
+        localStorage.removeItem("guest");
+      }
+    }
+  }, []);
 
   function setGuest(guest: Guest | null) {
     if (guest) {
@@ -42,12 +50,7 @@ export function GuestProvider({
   }
 
   return (
-    <GuestContext.Provider
-      value={{
-        guest,
-        setGuest,
-      }}
-    >
+    <GuestContext.Provider value={{ guest, setGuest }}>
       {children}
     </GuestContext.Provider>
   );
