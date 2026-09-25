@@ -94,32 +94,32 @@ export default function GuestManager() {
         className="w-full rounded-xl border border-[#D8D0C2] bg-white p-4 mb-8 outline-none focus:border-[#C9A96A]"
       />
 
-      <div className="overflow-x-auto">
-        <table className="w-full border border-[#2F2A27] bg-[#FAF8F2]">
+      <div className="overflow-x-auto rounded-3xl border border-[#2F2A27] bg-[#FAF8F2]">
+        <table className="w-full min-w-[1400px] border-collapse">
           <thead className="bg-[#F4EDE0]">
             <tr className="border-b border-[#2F2A27]">
-              <th className="p-3 text-left text-sm font-semibold text-[#2F2A27]">
+              <th className="w-[18%] p-3 text-left text-sm font-semibold text-[#2F2A27] whitespace-nowrap">
                 Guest
               </th>
-              <th className="p-3 text-left text-sm font-semibold text-[#2F2A27]">
+              <th className="w-[18%] p-3 text-left text-sm font-semibold text-[#2F2A27] whitespace-nowrap">
                 Email
               </th>
-              <th className="p-3 text-left text-sm font-semibold text-[#2F2A27]">
+              <th className="w-[14%] p-3 text-left text-sm font-semibold text-[#2F2A27] whitespace-nowrap">
                 Phone
               </th>
-              <th className="p-3 text-left text-sm font-semibold text-[#2F2A27]">
+              <th className="w-[12%] p-3 text-left text-sm font-semibold text-[#2F2A27] whitespace-nowrap">
                 RSVP Status
               </th>
-              <th className="p-3 text-left text-sm font-semibold text-[#2F2A27]">
+              <th className="w-[10%] p-3 text-left text-sm font-semibold text-[#2F2A27] whitespace-nowrap">
                 Check-In
               </th>
-              <th className="p-3 text-left text-sm font-semibold text-[#2F2A27]">
+              <th className="w-[6%] p-3 text-left text-sm font-semibold text-[#2F2A27] whitespace-nowrap">
                 Seats
               </th>
-              <th className="p-3 text-left text-sm font-semibold text-[#2F2A27]">
+              <th className="w-[12%] p-3 text-left text-sm font-semibold text-[#2F2A27] whitespace-nowrap">
                 Invite Code
               </th>
-              <th className="p-3 text-center text-sm font-semibold text-[#2F2A27]">
+              <th className="w-[20%] p-3 text-center text-sm font-semibold text-[#2F2A27] whitespace-nowrap">
                 Actions
               </th>
             </tr>
@@ -128,31 +128,35 @@ export default function GuestManager() {
           <tbody>
             {filtered.map((guest) => (
               <tr key={guest.id} className="border-b border-[#2F2A27]">
-                <td className="p-4 text-sm text-[#2F2A27]">
+                <td className="p-4 text-sm text-[#2F2A27] whitespace-nowrap">
                   {guest.full_name}
                 </td>
 
-                <td className="p-4 text-sm text-[#2F2A27]">
+                <td className="p-4 text-sm text-[#2F2A27] whitespace-nowrap">
                   {guest.email}
                 </td>
 
-                <td className="p-4 text-sm text-[#2F2A27]">
+                <td className="p-4 text-sm text-[#2F2A27] whitespace-nowrap">
                   {guest.phone}
                 </td>
 
-                <td className="p-4 text-sm text-[#2F2A27]">
-                  {guest.attending ? "✅ Attending" : "❌ Declined"}
+                <td className="p-4 text-sm text-[#2F2A27] whitespace-nowrap">
+                  {guest.checked_in
+                    ? guest.attending
+                      ? "✅ Attending"
+                      : "❌ Declined"
+                    : "Pending"}
                 </td>
 
-                <td className="p-4 text-sm text-[#2F2A27]">
+                <td className="p-4 text-sm text-[#2F2A27] whitespace-nowrap">
                   {guest.checked_in ? "🟢 Yes" : "⚪ No"}
                 </td>
 
-                <td className="p-4 text-sm text-[#2F2A27]">
+                <td className="p-4 text-sm text-[#2F2A27] whitespace-nowrap">
                   {guest.seats ?? "-"}
                 </td>
 
-                <td className="p-4 text-sm text-[#2F2A27]">
+                <td className="p-4 text-sm text-[#2F2A27] whitespace-nowrap">
                   {guest.invite_code ?? "-"}
                 </td>
 
