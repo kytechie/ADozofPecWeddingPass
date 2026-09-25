@@ -23,30 +23,32 @@ export default function InvitationPage() {
 
 
   async function loadGuest() {
+  console.log("Searching token:", token);
 
-    console.log("Searching token:", token);
+  const { data, error } = await supabase
+    .from("guests")
+    .select("*")
+    .eq("invite_token", token)
+    .maybeSingle();
 
-    const { data, error } = await supabase
-  .from("guests")
-  .select("id, full_name, invite_token")
-  .eq("invite_token", token);
+  console.log("Supabase returned data:", data);
+  console.log("Supabase returned error:", error);
 
-
-    console.log("Supabase returned data:", data);
-    console.log("Supabase returned error:", error);
-
-
-    if (error) {
-      console.error("Invite lookup failed:", error);
-    }
-
-
-    if (data) {
-      setLocalGuest(data);
-    }
-
+  if (error) {
+    console.error("Invite lookup failed:", error);
     setLoading(false);
+    return;
   }
+
+  if (!data) {
+    setLocalGuest(null);
+    setLoading(false);
+    return;
+  }
+
+  setLocalGuest(data);
+  setLoading(false);
+}
 
 
   function continueToWebsite() {
