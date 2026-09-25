@@ -8,19 +8,6 @@ import InvitationCard from "./InvitationCard";
 import InvitationSection from "./InvitationSection";
 import { useGuest } from "@/components/GuestProvider";
 
-type Guest = {
-  id: string;
-  full_name: string;
-  email: string;
-  phone: string;
-  seats: number;
-  invite_code: string | null;
-  invite_token: string | null;
-  qr_code: string | null;
-  attending: boolean | null;
-  message: string | null;
-};
-
 export default function RSVP() {
   const { guest } = useGuest();
 
@@ -71,12 +58,18 @@ export default function RSVP() {
     let error: any = null;
 
     if (guest) {
-      const inviteCodeValue =
-        guest.invite_code ||
-        "PC-" + uuidv4().replace(/-/g, "").substring(0, 6).toUpperCase();
+      const shouldGenerateCode = attending === true;
 
-      const inviteTokenValue = guest.invite_token || uuidv4();
-      const qrCodeValue = guest.qr_code || uuidv4();
+      const inviteCodeValue = shouldGenerateCode
+        ? guest.invite_code ||
+          "PC-" + uuidv4().replace(/-/g, "").substring(0, 6).toUpperCase()
+        : null;
+
+      const inviteTokenValue = shouldGenerateCode
+        ? guest.invite_token || uuidv4()
+        : null;
+
+      const qrCodeValue = shouldGenerateCode ? guest.qr_code || uuidv4() : null;
 
       ({ error } = await supabase
         .from("guests")
@@ -96,8 +89,8 @@ export default function RSVP() {
       if (!error) {
         setGuestName(fullName.trim());
         setGuestSeats(attending ? 1 : 0);
-        setInviteCode(inviteCodeValue);
-        setInviteToken(inviteTokenValue);
+        setInviteCode(inviteCodeValue ?? "");
+        setInviteToken(inviteTokenValue ?? "");
         setSuccess(true);
       }
     } else {
@@ -152,26 +145,40 @@ export default function RSVP() {
             setPhone("");
             setAttending(null);
             setMessage("");
-          } else {
-            setFullName(guest.full_name);
-            setEmail(guest.email);
-            setPhone(guest.phone);
-            setAttending(guest.attending);
-            setMessage(guest.message ?? "");
+            setErrorMessage("");
+            setSuccess(false);
+            setOpen(true);
+            return;
+          }
 
-            if (
-              guest.attending !== null &&
-              guest.invite_code &&
-              guest.invite_token
-            ) {
-              setGuestName(guest.full_name);
-              setGuestSeats(guest.seats ?? 1);
-              setInviteCode(guest.invite_code);
-              setInviteToken(guest.invite_token);
-              setSuccess(true);
-              setOpen(true);
-              return;
-            }
+          setFullName(guest.full_name);
+          setEmail(guest.email);
+          setPhone(guest.phone);
+          setAttending(guest.attending);
+          setMessage(guest.message ?? "");
+
+          if (
+            guest.attending === true &&
+            guest.invite_code &&
+            guest.invite_token
+          ) {
+            setGuestName(guest.full_name);
+            setGuestSeats(guest.seats ?? 1);
+            setInviteCode(guest.invite_code);
+            setInviteToken(guest.invite_token);
+            setSuccess(true);
+            setOpen(true);
+            return;
+          }
+
+          if (guest.attending === false) {
+            setGuestName(guest.full_name);
+            setGuestSeats(0);
+            setInviteCode("");
+            setInviteToken("");
+            setSuccess(true);
+            setOpen(true);
+            return;
           }
 
           setErrorMessage("");
@@ -386,7 +393,7 @@ export default function RSVP() {
                     </div>
                   )}
                 </form>
-              ) : guest ? (
+              ) : guest && attending === true ? (
                 <InvitationCard
                   name={guestName}
                   inviteCode={inviteCode}
