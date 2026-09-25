@@ -61,11 +61,13 @@ export default function GuestManager() {
   );
 
   return (
-    <div>
+    <div className="min-h-screen bg-[#FAF8F2]">
       <div className="flex items-center justify-between mb-10">
         <div>
-          <h1 className="text-5xl font-light">Guest Manager</h1>
-          <p className="mt-3 text-gray-500">Manage your wedding guest list.</p>
+          <h1 className="text-5xl font-light text-[#2F2A27]">Guest Manager</h1>
+          <p className="mt-3 text-gray-500">
+            Manage your wedding guests, invitations and RSVPs.
+          </p>
         </div>
 
         <div className="flex gap-3">
@@ -89,81 +91,108 @@ export default function GuestManager() {
         placeholder="Search guest..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="w-full rounded-xl border p-4 mb-8"
+        className="w-full rounded-xl border border-[#D8D0C2] bg-white p-4 mb-8 outline-none focus:border-[#C9A96A]"
       />
 
-      <div className="hidden lg:block">
-        <div className="rounded-3xl bg-white shadow-lg overflow-hidden">
-          <table className="w-full">
-            <thead className="bg-[#F6F2E9]">
-              <tr>
-                <th className="p-5 text-left">Guest</th>
-                <th className="p-5 text-left">Phone</th>
-                <th className="p-5 text-left">Seats</th>
-                <th className="p-5 text-left">RSVP</th>
-                <th className="p-5 text-left">Checked In</th>
-                <th className="p-5 text-center">Actions</th>
-              </tr>
-            </thead>
+      <div className="overflow-x-auto">
+        <table className="w-full border border-[#2F2A27] bg-[#FAF8F2]">
+          <thead className="bg-[#F4EDE0]">
+            <tr className="border-b border-[#2F2A27]">
+              <th className="p-3 text-left text-sm font-semibold text-[#2F2A27]">
+                Guest
+              </th>
+              <th className="p-3 text-left text-sm font-semibold text-[#2F2A27]">
+                Email
+              </th>
+              <th className="p-3 text-left text-sm font-semibold text-[#2F2A27]">
+                Phone
+              </th>
+              <th className="p-3 text-left text-sm font-semibold text-[#2F2A27]">
+                RSVP Status
+              </th>
+              <th className="p-3 text-left text-sm font-semibold text-[#2F2A27]">
+                Check-In
+              </th>
+              <th className="p-3 text-left text-sm font-semibold text-[#2F2A27]">
+                Seats
+              </th>
+              <th className="p-3 text-left text-sm font-semibold text-[#2F2A27]">
+                Invite Code
+              </th>
+              <th className="p-3 text-center text-sm font-semibold text-[#2F2A27]">
+                Actions
+              </th>
+            </tr>
+          </thead>
 
-            <tbody>
-              {filtered.map((guest) => (
-                <tr key={guest.id} className="border-t">
-                  <td className="p-5">
+          <tbody>
+            {filtered.map((guest) => (
+              <tr key={guest.id} className="border-b border-[#2F2A27]">
+                <td className="p-4 text-sm text-[#2F2A27]">
+                  {guest.full_name}
+                </td>
+
+                <td className="p-4 text-sm text-[#2F2A27]">
+                  {guest.email}
+                </td>
+
+                <td className="p-4 text-sm text-[#2F2A27]">
+                  {guest.phone}
+                </td>
+
+                <td className="p-4 text-sm text-[#2F2A27]">
+                  {guest.attending ? "✅ Attending" : "❌ Declined"}
+                </td>
+
+                <td className="p-4 text-sm text-[#2F2A27]">
+                  {guest.checked_in ? "🟢 Yes" : "⚪ No"}
+                </td>
+
+                <td className="p-4 text-sm text-[#2F2A27]">
+                  {guest.seats ?? "-"}
+                </td>
+
+                <td className="p-4 text-sm text-[#2F2A27]">
+                  {guest.invite_code ?? "-"}
+                </td>
+
+                <td className="p-4">
+                  <div className="flex flex-wrap gap-2 justify-center">
                     <Link
                       href={`/admin/guests/${guest.id}`}
-                      className="font-medium hover:text-[#C9A96A]"
+                      className="rounded-full bg-[#C9A96A] px-4 py-2 text-white hover:opacity-90"
                     >
-                      {guest.full_name}
+                      Edit
                     </Link>
-                  </td>
 
-                  <td className="p-5">{guest.phone}</td>
-                  <td className="p-5">{guest.seats}</td>
-                  <td className="p-5">
-                    {guest.attending ? "✅ Attending" : "❌ Declined"}
-                  </td>
-                  <td className="p-5">
-                    {guest.checked_in ? "🟢 Yes" : "⚪ No"}
-                  </td>
+                    <button
+                      onClick={() => {
+                        const link = `${WEBSITE_URL}/invite/${guest.invite_token}`;
+                        navigator.clipboard.writeText(link);
+                        setCopiedLink(link);
+                        setCopied(true);
 
-                  <td className="p-5">
-                    <div className="flex flex-wrap gap-2 justify-center">
-                      <Link
-                        href={`/admin/guests/${guest.id}`}
-                        className="rounded-full bg-[#C9A96A] px-4 py-2 text-white hover:opacity-90"
-                      >
-                        Edit
-                      </Link>
+                        setTimeout(() => {
+                          setCopied(false);
+                        }, 3000);
+                      }}
+                      className="rounded-full bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
+                    >
+                      Copy Link
+                    </button>
 
-                      <button
-                        onClick={() => {
-                          const link = `${WEBSITE_URL}/invite/${guest.invite_token}`;
-                          navigator.clipboard.writeText(link);
-                          setCopiedLink(link);
-                          setCopied(true);
+                    <button
+                      onClick={() => setGuestToDelete(guest)}
+                      className="rounded-full bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+                    >
+                      Delete
+                    </button>
 
-                          window.setTimeout(() => {
-                            setCopied(false);
-                          }, 3000);
-                        }}
-                        className="rounded-full bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
-                      >
-                        Copy Link
-                      </button>
-
-                      <button
-                        onClick={() => setGuestToDelete(guest)}
-                        className="rounded-full bg-red-600 px-4 py-2 text-white hover:bg-red-700"
-                      >
-                        Delete
-                      </button>
-
-                      <a
-                        href={`https://wa.me/${formatPhoneForWhatsApp(
-                          guest.phone
-                        )}?text=${encodeURIComponent(
-                          `Hi ${guest.full_name},
+                    <a
+                      href={`https://wa.me/${formatPhoneForWhatsApp(
+                        guest.phone
+                      )}?text=${encodeURIComponent(
+                        `Hi ${guest.full_name},
 
 You're warmly invited to celebrate our wedding.
 
@@ -173,181 +202,19 @@ ${WEBSITE_URL}/invite/${guest.invite_token}
 
 Love,
 Peculiar & Chiedozie ❤️`
-                        )}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="rounded-full bg-green-600 px-4 py-2 text-white hover:bg-green-700"
-                      >
-                        WhatsApp
-                      </a>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div className="lg:hidden space-y-5">
-        {filtered.map((guest) => (
-          <div key={guest.id} className="rounded-3xl bg-white shadow-lg p-5">
-            <div className="flex items-start justify-between relative">
-              <div>
-                <h2 className="text-xl font-semibold text-[#2F2A27]">
-                  {guest.full_name}
-                </h2>
-
-                <p className="mt-1 text-sm text-gray-500">{guest.phone}</p>
-              </div>
-
-              <button
-                onClick={() =>
-                  setOpenMenu(openMenu === guest.id ? null : guest.id)
-                }
-                className="h-10 w-10 rounded-full hover:bg-[#F6F2E9] flex items-center justify-center text-2xl"
-              >
-                ⋮
-              </button>
-
-              {openMenu === guest.id && (
-                <div className="absolute right-0 top-12 w-56 rounded-2xl bg-white shadow-2xl border z-40 overflow-hidden">
-                  <Link
-                    href={`/admin/guests/${guest.id}`}
-                    className="block px-5 py-4 hover:bg-[#F9F6EF]"
-                  >
-                    ✏️ Edit Guest
-                  </Link>
-
-                  <button
-                    onClick={() => {
-                      const link = `${WEBSITE_URL}/invite/${guest.invite_token}`;
-                      navigator.clipboard.writeText(link);
-                      setCopiedLink(link);
-                      setCopied(true);
-                      setOpenMenu(null);
-
-                      setTimeout(() => {
-                        setCopied(false);
-                      }, 3000);
-                    }}
-                    className="block w-full text-left px-5 py-4 hover:bg-[#F9F6EF]"
-                  >
-                    🔗 Copy Invitation Link
-                  </button>
-
-                  <a
-                    href={`https://wa.me/${formatPhoneForWhatsApp(
-                      guest.phone
-                    )}?text=${encodeURIComponent(
-                      `Hi ${guest.full_name},
-
-You're warmly invited to celebrate our wedding.
-
-Please RSVP using the link below:
-
-${WEBSITE_URL}/invite/${guest.invite_token}
-
-Love,
-Peculiar & Chiedozie ❤️`
-                    )}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block px-5 py-4 hover:bg-[#F9F6EF]"
-                  >
-                    💬 Send via WhatsApp
-                  </a>
-
-                  <button
-                    onClick={() => {
-                      setGuestToDelete(guest);
-                      setOpenMenu(null);
-                    }}
-                    className="block w-full text-left px-5 py-4 text-red-600 hover:bg-red-50"
-                  >
-                    🗑 Delete Guest
-                  </button>
-                </div>
-              )}
-            </div>
-
-            <div className="mt-5 flex flex-wrap gap-3">
-              <span
-                className={`rounded-full px-3 py-1 text-sm font-medium ${
-                  guest.attending
-                    ? "bg-green-100 text-green-700"
-                    : "bg-red-100 text-red-700"
-                }`}
-              >
-                {guest.attending ? "✅ Attending" : "❌ Declined"}
-              </span>
-
-              <span
-                className={`rounded-full px-3 py-1 text-sm font-medium ${
-                  guest.checked_in
-                    ? "bg-blue-100 text-blue-700"
-                    : "bg-gray-100 text-gray-600"
-                }`}
-              >
-                {guest.checked_in ? "🟢 Checked In" : "⚪ Not Checked In"}
-              </span>
-            </div>
-
-            <div className="mt-6 grid grid-cols-2 gap-3">
-              <Link
-                href={`/admin/guests/${guest.id}`}
-                className="rounded-full bg-[#C9A96A] py-3 text-center text-white font-medium"
-              >
-                Edit
-              </Link>
-
-              <button
-                onClick={() => {
-                  const link = `${WEBSITE_URL}/invite/${guest.invite_token}`;
-                  navigator.clipboard.writeText(link);
-                  setCopiedLink(link);
-                  setCopied(true);
-
-                  setTimeout(() => {
-                    setCopied(false);
-                  }, 3000);
-                }}
-                className="rounded-full bg-blue-600 py-3 text-white font-medium"
-              >
-                Copy Link
-              </button>
-
-              <a
-                href={`https://wa.me/${formatPhoneForWhatsApp(
-                  guest.phone
-                )}?text=${encodeURIComponent(
-                  `Hi ${guest.full_name},
-
-You're warmly invited to celebrate our wedding!
-
-Please RSVP using the link below:
-
-${WEBSITE_URL}/invite/${guest.invite_token}
-
-Love,
-Peculiar & Chiedozie ❤️`
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-full bg-green-600 py-3 text-center text-white font-medium"
-              >
-                WhatsApp
-              </a>
-
-              <button
-                onClick={() => setGuestToDelete(guest)}
-                className="rounded-full bg-red-600 py-3 text-white font-medium"
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        ))}
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="rounded-full bg-green-600 px-4 py-2 text-white hover:bg-green-700"
+                    >
+                      WhatsApp
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       {guestToDelete && (
@@ -380,7 +247,7 @@ Peculiar & Chiedozie ❤️`
       )}
 
       {copied && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 md:left-auto md:right-8 md:translate-x-0 z-50 w-[92%] max-w-md rounded-3xl bg-[#2F2A27] p-5 text-white shadow-2xl">
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-md rounded-3xl bg-[#2F2A27] p-5 text-white shadow-2xl">
           <p className="font-medium">✨ Invitation link copied!</p>
 
           <div className="mt-4 flex gap-3">
