@@ -139,13 +139,13 @@ export default function GuestManager() {
                   {guest.phone}
                 </td>
 
-                <td className="px-3 py-3 text-sm text-[#2F2A27] whitespace-nowrap">
-                  {guest.checked_in
-                    ? guest.attending
-                      ? "✅ Attending"
-                      : "❌ Declined"
-                    : "Pending"}
-                </td>
+               <td className="px-3 py-3 text-sm text-[#2F2A27] whitespace-nowrap">
+  {guest.attending === null
+    ? "Pending"
+    : guest.attending
+      ? "✅ Attending"
+      : "❌ Declined"}
+</td>
 
                 <td className="px-3 py-3 text-sm text-[#2F2A27] whitespace-nowrap">
                   {guest.checked_in ? "🟢 Yes" : "⚪ Not Checked In"}
