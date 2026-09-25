@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 type Guest = {
   id: string;
@@ -25,32 +25,24 @@ const GuestContext = createContext<GuestContextType>({
   setGuest: () => {},
 });
 
-export function GuestProvider({ children }: { children: React.ReactNode }) {
+export function GuestProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [guest, setGuestState] = useState<Guest | null>(null);
 
-  useEffect(() => {
-    const saved = localStorage.getItem("guest");
-    if (saved) {
-      try {
-        setGuestState(JSON.parse(saved));
-      } catch {
-        localStorage.removeItem("guest");
-      }
-    }
-  }, []);
-
   function setGuest(guest: Guest | null) {
-    if (guest) {
-      localStorage.setItem("guest", JSON.stringify(guest));
-    } else {
-      localStorage.removeItem("guest");
-    }
-
     setGuestState(guest);
   }
 
   return (
-    <GuestContext.Provider value={{ guest, setGuest }}>
+    <GuestContext.Provider
+      value={{
+        guest,
+        setGuest,
+      }}
+    >
       {children}
     </GuestContext.Provider>
   );
