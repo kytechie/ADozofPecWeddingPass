@@ -424,7 +424,7 @@ export default function RSVP() {
                 />
               ) : (
                 <div className="text-center text-gray-600">
-                  Thank you for your response. We’ll miss you at the wedding.
+                  Thank you for letting us know about yourself.
                 </div>
               )}
             </motion.div>
