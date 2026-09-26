@@ -240,9 +240,19 @@ export default function RSVP() {
               </p>
 
               <h2 className="mt-6 text-center text-5xl md:text-6xl font-light tracking-[-0.03em] text-[#2F2A27] leading-tight">
-                We Can't Wait
-                <br />
-                To Celebrate With You
+                {submittedAttending === false ? (
+                  <>
+                    Thank You
+                    <br />
+                    For Your Response
+                  </>
+                ) : (
+                  <>
+                    We Can't Wait
+                    <br />
+                    To Celebrate With You
+                  </>
+                )}
               </h2>
 
               <div className="flex items-center justify-center gap-4 mt-10 mb-14">
