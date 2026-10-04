@@ -132,7 +132,7 @@ export default function Letter() {
             </h3>
 
             <p className="mt-10 uppercase tracking-[0.45em] text-xs text-[#C9A96A]">
-              #ADozofPec27∞
+              #ADozofPec∞
             </p>
 
           </div>

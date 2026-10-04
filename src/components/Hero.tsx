@@ -146,7 +146,7 @@ export default function Hero() {
           </p>
 
           <p className="mt-16 uppercase tracking-[0.4em] text-[11px] text-[#C9A96A]">
-            #ADozofPec27∞
+            #ADozofPec∞
           </p>
 
         </motion.div>

@@ -158,7 +158,7 @@ export default function Footer() {
     text-[#E6D2A4]
   "
 >
-  #ADozofPec27∞
+  #ADozofPec∞
 </h3>
         </motion.div>
 
